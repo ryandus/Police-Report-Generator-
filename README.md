@@ -7,7 +7,7 @@ A lightweight, front-end reporting utility designed to standardize law enforceme
 
 ## Live Demo
 Try the tool directly in your browser:  
-👉 **[Launch Narrative Template Generator](https://ryandus.github.io/law-enforcement-narrative-template/)**
+👉 **[Launch Narrative Template Generator](https://ryandus.github.io/Police-Report-Generator-/)**
 
 ---
 
