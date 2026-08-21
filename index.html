@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BCSO Deputy Report Template</title>
+    <title>Incident Report Template Generator</title>
     <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; }
         .container { max-width: 950px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         
         /* Header */
-        .header-area { display: flex; align-items: center; justify-content: center; gap: 20px; border-bottom: 4px solid #003366; padding-bottom: 20px; margin-bottom: 30px; position: relative; }
-        .header-area img { height: 100px; width: auto; }
-        .header-area h1 { color: #003366; margin: 0; font-size: 26px; text-transform: uppercase; }
-        .clear-btn { position: absolute; right: 0; top: 0; background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .header-area { display: flex; align-items: center; justify-content: center; border-bottom: 4px solid #003366; padding-bottom: 20px; margin-bottom: 30px; position: relative; }
+        .header-area h1 { color: #003366; margin: 0; font-size: 24px; text-transform: uppercase; text-align: center; }
+        .clear-btn { position: absolute; right: 0; top: 0; background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
 
         .section { margin-bottom: 25px; padding: 20px; border: 1px solid #d1d9e0; border-radius: 8px; background-color: #ffffff; }
         .section-title { font-weight: bold; font-size: 1.1em; margin-bottom: 15px; display: block; color: #003366; text-transform: uppercase; border-left: 5px solid #003366; padding-left: 12px; }
@@ -48,8 +47,7 @@
 <div class="container">
     <div class="header-area">
         <button class="clear-btn" onclick="window.location.reload()">Clear Form</button>
-        <img src="https://play-lh.googleusercontent.com/yzZMiREzp9kF5J5XtF8fWwZ808oWOzaicmQfsRigXKr7V3pnMBZYDLqnySv7-KtmAWrllV_JBrX06aVRMZqi=w240-h480-rw" alt="Badge">
-        <h1>BCSO Deputy Report Template</h1>
+        <h1>Incident Report Template Generator</h1>
     </div>
 
     <!-- SECTION 1 -->
@@ -57,7 +55,7 @@
         <span class="section-title">Section 1: Narrative Header</span>
         <div class="grid-2">
             <div><label>Date & Time</label><input type="datetime-local" id="dateTime"></div>
-            <div><label>Incident Address</label><input type="text" id="address" placeholder="123 Main St, Brevard County"></div>
+            <div><label>Incident Address</label><input type="text" id="address" placeholder="123 Main St, Jurisdiction"></div>
         </div>
 
         <label>People Involved</label>
@@ -76,16 +74,16 @@
             </script>
         </div>
 
-        <label>Involved Deputies (Assisting Personnel)</label>
+        <label>Involved Officers / Deputies (Assisting Personnel)</label>
         <div id="deputyRows">
             <script>
-                const ranks = ["Deputy", "Deputy Trainee", "FTO", "Corporal", "Sergeant", "Lieutenant"];
+                const ranks = ["Officer", "Deputy", "Detective", "Corporal", "Sergeant", "Lieutenant"];
                 for(let i=1; i<=5; i++){
                     let rankOpts = ranks.map(r => `<option value="${r}">${r}</option>`).join('');
                     document.write(`
                     <div class="deputy-row">
                         <select id="depRank${i}"><option value="">Select Rank</option>${rankOpts}</select>
-                        <input type="text" id="depName${i}" placeholder="Deputy Name / ID">
+                        <input type="text" id="depName${i}" placeholder="Name / ID #">
                     </div>`);
                 }
             </script>
@@ -95,73 +93,66 @@
         <select id="incidentType" onchange="updateNarrativePanels()">
             <option value="Standard">Standard Response</option>
             <option value="Traffic">Traffic Enforcement / Citation</option>
-            <option value="Baker">Baker Act</option>
-            <option value="Marchman">Marchman Act</option>
+            <option value="MentalHealth">Mental Health / Protective Custody</option>
+            <option value="SubstanceAbuse">Substance Impairment / Protective Custody</option>
         </select>
 
         <div id="trafficPanel" class="sub-panel hidden">
-            <label>Enforcement Area</label><input type="text" id="tArea">
+            <label>Enforcement Area</label><input type="text" id="tArea" placeholder="Street / Intersection">
             <div class="grid-3">
                 <input type="text" id="tYear" placeholder="Year">
                 <input type="text" id="tColor" placeholder="Color">
-                <input type="text" id="tMake" placeholder="Make">
+                <input type="text" id="tMake" placeholder="Make / Model">
             </div>
             <div class="grid-3">
-                <input type="text" id="tPlate" placeholder="Plate #">
-                <input type="text" id="tEstSpeed" placeholder="Est. Speed">
-                <input type="text" id="tPostSpeed" placeholder="Post Speed">
+                <input type="text" id="tPlate" placeholder="Plate # / State">
+                <input type="text" id="tEstSpeed" placeholder="Visual Est. Speed">
+                <input type="text" id="tPostSpeed" placeholder="Posted Speed Limit">
             </div>
-            <label>Radar Verification</label><input type="text" id="tRadarSpeed">
-            <label>Observations</label><textarea id="tObs" placeholder="Enter observations..."></textarea>
+            <label>Radar / LIDAR Verification</label><input type="text" id="tRadarSpeed" placeholder="Speed confirmed by unit">
+            <label>Observations</label><textarea id="tObs" placeholder="Enter vehicle actions / violations observed..."></textarea>
         </div>
 
-        <div id="bakerPanel" class="sub-panel hidden">
-            <label>Subject Name</label><input type="text" id="bakerSub">
+        <div id="mentalHealthPanel" class="sub-panel hidden">
+            <label>Subject Name</label><input type="text" id="mhSub">
             <label>Criteria</label>
-            <select id="bCriteria">
-                <option value="1">(1) Harm to self/others</option>
-                <option value="2">(2) Neglect/Refusal of care</option>
-                <option value="3">(3) BOTH criteria 1 and 2 apply</option>
+            <select id="mhCriteria">
+                <option value="1">(1) Substantial likelihood of harm to self or others</option>
+                <option value="2">(2) Inability to provide for basic self-care / refusal of care</option>
+                <option value="3">(3) Both criteria 1 and 2 apply</option>
             </select>
-            <label>Facility</label>
-            <select id="bHosp">
-                <option value="Parrish Medical Center">Parrish Medical Center</option>
-                <option value="Rockledge Regional Medical Center">Rockledge Regional Medical Center</option>
-                <option value="Palm Point Behavioral Health Facility">Palm Point Behavioral Health Facility</option>
-            </select>
+            <label>Receiving Facility</label>
+            <input type="text" id="mhHosp" placeholder="Designated Receiving Facility">
         </div>
 
-        <div id="marchmanPanel" class="sub-panel hidden">
-            <label>Subject Name</label><input type="text" id="mName">
-            <label>Facility</label>
-            <select id="mHosp">
-                <option value="Parrish Medical Center">Parrish Medical Center</option>
-                <option value="Rockledge Regional Medical Center">Rockledge Regional Medical Center</option>
-            </select>
+        <div id="substancePanel" class="sub-panel hidden">
+            <label>Subject Name</label><input type="text" id="saName">
+            <label>Receiving Facility / Treatment Center</label>
+            <input type="text" id="saHosp" placeholder="Designated Treatment / Medical Facility">
         </div>
 
-        <label style="margin-top:20px; color:#003366;">Other Scenarios (Select up to 3)</label>
+        <label style="margin-top:20px; color:#003366;">Supplemental Scenarios (Select up to 3)</label>
         <div class="grid-3">
             <select id="scenario1">
                 <option value="">- None -</option>
-                <option value="DV">Act of DV may have occurred but....</option>
+                <option value="DV">Domestic Dispute (Unsubstantiated PC)</option>
                 <option value="Latent">Latent Print Processing</option>
                 <option value="StopBar">Stop Bar Violation</option>
-                <option value="Video">Video Canvassing Occurred</option>
+                <option value="Video">Area Video Canvass</option>
             </select>
             <select id="scenario2">
                 <option value="">- None -</option>
-                <option value="DV">Act of DV may have occurred but....</option>
+                <option value="DV">Domestic Dispute (Unsubstantiated PC)</option>
                 <option value="Latent">Latent Print Processing</option>
                 <option value="StopBar">Stop Bar Violation</option>
-                <option value="Video">Video Canvassing Occurred</option>
+                <option value="Video">Area Video Canvass</option>
             </select>
             <select id="scenario3">
                 <option value="">- None -</option>
-                <option value="DV">Act of DV may have occurred but....</option>
+                <option value="DV">Domestic Dispute (Unsubstantiated PC)</option>
                 <option value="Latent">Latent Print Processing</option>
                 <option value="StopBar">Stop Bar Violation</option>
-                <option value="Video">Video Canvassing Occurred</option>
+                <option value="Video">Area Video Canvass</option>
             </select>
         </div>
     </div>
@@ -171,13 +162,13 @@
         <span class="section-title">Section 2: Scene & Evidence</span>
         <div class="grid-2">
             <div class="check-row"><input type="checkbox" id="cPhotos"> Digital Photos Taken of:</div>
-            <input type="text" id="photoDetails">
+            <input type="text" id="photoDetails" placeholder="Description of photos taken">
             <div class="check-row"><input type="checkbox" id="cAudio"> Sworn Audio Statement:</div>
-            <input type="text" id="audioFrom" placeholder="Taken from whom?">
+            <input type="text" id="audioFrom" placeholder="Statement taken from whom?">
             <div class="check-row"><input type="checkbox" id="cEvidence"> Evidence Submitted:</div>
-            <textarea id="evidenceDetails" placeholder="Items/Receipt #"></textarea>
-            <div class="check-row"><input type="checkbox" id="cDash"> Axon Fleet 3 In-Car Video:</div>
-            <input type="text" id="vehNum" placeholder="Vehicle #">
+            <textarea id="evidenceDetails" placeholder="Items, serial numbers, property receipt #"></textarea>
+            <div class="check-row"><input type="checkbox" id="cDash"> In-Car / Body Worn Video Recorded:</div>
+            <input type="text" id="vehNum" placeholder="Patrol Unit / Camera ID #">
         </div>
     </div>
 
@@ -186,41 +177,41 @@
         <span class="section-title">Section 3: Disposition</span>
         <label>Select Case Disposition</label>
         <select id="dispChoice" onchange="updateDispPanels()">
-            <option value="arrest">Arrest / Referred to SAO</option>
-            <option value="warrant">Arrest Warrant Issued</option>
-            <option value="capias">Capias Request</option>
+            <option value="arrest">Arrest / Referred for Prosecution</option>
+            <option value="warrant">Arrest Warrant Issued / Requested</option>
+            <option value="capias">Formal Complaint / Direct File Request</option>
             <option value="open">Open / Active Investigation</option>
             <option value="exceptional">Exceptionally Cleared</option>
-            <option value="suspended">Suspended to File</option>
-            <option value="info">Informational Purposes Only</option>
-            <option value="cleared">Cleared</option>
-            <option value="original">Refer to the Original Report</option>
+            <option value="suspended">Suspended / Inactive Pending Leads</option>
+            <option value="info">Informational Report Only</option>
+            <option value="cleared">Cleared / Closed</option>
+            <option value="original">Refer to Original Report</option>
         </select>
 
         <div id="dispInputs" style="margin-top:15px;">
             <div id="row_suspect" class="hidden"><label>Suspect Name</label><input type="text" id="disp_suspect"></div>
-            <div id="row_charges" class="hidden"><label>Criminal Charges / Charges for Capias</label><input type="text" id="disp_charges"></div>
-            <div id="row_judge" class="hidden"><label>Judge Name</label><input type="text" id="disp_judge"></div>
-            <div id="row_unit" class="hidden"><label>Unit Referred To</label><input type="text" id="disp_unit"></div>
-            <div id="row_reason" class="hidden"><label>Cleared Due To (Reason)</label><input type="text" id="disp_reason"></div>
+            <div id="row_charges" class="hidden"><label>Criminal Charges / Statutory Violations</label><input type="text" id="disp_charges"></div>
+            <div id="row_judge" class="hidden"><label>Issuing Judge / Authority</label><input type="text" id="disp_judge"></div>
+            <div id="row_unit" class="hidden"><label>Investigative Unit Referred To</label><input type="text" id="disp_unit"></div>
+            <div id="row_reason" class="hidden"><label>Reason for Exception / Closure</label><input type="text" id="disp_reason"></div>
         </div>
     </div>
 
     <!-- SECTION 4 -->
     <div class="section">
-        <span class="section-title">Section 4: Enclosures</span>
-        <div class="check-row"><input type="checkbox" id="eMedia"> Digital Media Uploaded</div>
-        <div class="check-row"><input type="checkbox" id="eAxon"> Axon Fleet 3 In-Car Video</div>
-        <div class="check-row"><input type="checkbox" id="eVictim"> Victim Notification</div>
-        <label>Additional Enclosures</label>
-        <input type="text" id="ec1" placeholder="Enclosure 1" style="margin-bottom:5px;">
-        <input type="text" id="ec2" placeholder="Enclosure 2" style="margin-bottom:5px;">
-        <input type="text" id="ec3" placeholder="Enclosure 3" style="margin-bottom:5px;">
-        <input type="text" id="ec4" placeholder="Enclosure 4" style="margin-bottom:5px;">
-        <input type="text" id="ec5" placeholder="Enclosure 5">
+        <span class="section-title">Section 4: Enclosures & Attachments</span>
+        <div class="check-row"><input type="checkbox" id="eMedia"> Digital Media / Photographs Uploaded</div>
+        <div class="check-row"><input type="checkbox" id="eAxon"> In-Car / BWC Video Preserved</div>
+        <div class="check-row"><input type="checkbox" id="eVictim"> Statutory Victim Rights Documentation Provided</div>
+        <label>Additional Attachments / Forms</label>
+        <input type="text" id="ec1" placeholder="Attachment 1" style="margin-bottom:5px;">
+        <input type="text" id="ec2" placeholder="Attachment 2" style="margin-bottom:5px;">
+        <input type="text" id="ec3" placeholder="Attachment 3" style="margin-bottom:5px;">
+        <input type="text" id="ec4" placeholder="Attachment 4" style="margin-bottom:5px;">
+        <input type="text" id="ec5" placeholder="Attachment 5">
     </div>
 
-    <button class="gen-btn" onclick="generateBCSOReport()">GENERATE COMPLETE REPORT</button>
+    <button class="gen-btn" onclick="generateReport()">GENERATE COMPLETE REPORT</button>
 
     <div id="outputArea">
         <div id="reportResult"></div>
@@ -230,17 +221,17 @@
 
 <script>
     const scenariosMap = {
-        "DV": "Although an act of Domestic Violence may have occurred, at this time, I am unable to substantiate probable cause for the offense of Battery Domestic Violence. Due to there being no signs of physical injury, the lack of independent witnesses and the contradicting statements made by the parties involved, which can neither be proven or disproved.",
-        "Latent": "The surface was not conducive (or suitable) for the application of standard finger print powder.\n\nI processed the ____ for latent prints using my Brevard County issued latent print kit. I processed the ____ for latent prints by applying black fingerprint powder to the following surfaces:\n\nI then processed the areas for developed friction ridge details, but was unable to observe any. I then inspected the processed areas and was able to observe five (5) areas of developed friction ridge detail of unknown quality. I was able to lift these areas of developed friction ridge details and placed them on a latent print cards. I secured ____ (# of print cards) latent prints cards in to an evidence locker at _____ Precinct for the Identification Unit.",
-        "StopBar": "I observed the vehicle approach the stop sign and come to a complete stop approximately xxx feet OR vehicle lengths past the solid white line (stop bar). The stop bar was clearly painted on the roadway directly next to the sign. The stop bar indicates where a vehicle is supposed to stop at the stop sign to avoid being struck by other traffic.",
-        "Video": "A canvas of the residence and surrounding residences did not reveal any cameras that faced Mr. Wall’s property, and due to the large time frame and area of the crime location, no additional digital evidence was located."
+        "DV": "Although a physical altercation may have occurred, at this time probable cause cannot be substantiated for a primary aggressor due to a lack of observable physical injuries, independent witnesses, and mutually conflicting accounts from the involved parties.",
+        "Latent": "The designated surfaces were evaluated for latent fingerprint suitability. Applied standard fingerprint powder to target areas. Friction ridge details were observed, lifted via latent lift tape onto fingerprint cards, and secured in the evidence repository for forensic comparison.",
+        "StopBar": "I observed the vehicle approach the intersection and fail to stop at the clearly marked solid white stop line (stop bar), proceeding into the intersection crosswalk/traffic flow before coming to a stop.",
+        "Video": "A neighborhood canvas of adjacent premises was conducted to locate surveillance cameras covering the incident location. Due to camera positioning and the timeframe involved, no relevant digital recordings were captured."
     };
 
     function updateNarrativePanels() {
         const val = document.getElementById('incidentType').value;
         document.getElementById('trafficPanel').className = (val === 'Traffic') ? 'sub-panel' : 'hidden';
-        document.getElementById('bakerPanel').className = (val === 'Baker') ? 'sub-panel' : 'hidden';
-        document.getElementById('marchmanPanel').className = (val === 'Marchman') ? 'sub-panel' : 'hidden';
+        document.getElementById('mentalHealthPanel').className = (val === 'MentalHealth') ? 'sub-panel' : 'hidden';
+        document.getElementById('substancePanel').className = (val === 'SubstanceAbuse') ? 'sub-panel' : 'hidden';
     }
 
     function updateDispPanels() {
@@ -267,7 +258,7 @@
 
     updateDispPanels();
 
-    function generateBCSOReport() {
+    function generateReport() {
         const dtVal = document.getElementById('dateTime').value;
         let dayStr = "[Day]", dateStr = "MM/DD/YYYY", milTime = "XXXX";
         if(dtVal) {
@@ -278,7 +269,7 @@
         }
 
         const addr = document.getElementById('address').value || "_________";
-        let s1 = `SECTION 1: NARRATIVE\n\nOn ${dayStr} ${dateStr} at approximately ${milTime} hours, I responded to ${addr} in reference to `;
+        let s1 = `SECTION 1: NARRATIVE\n\nOn ${dayStr} ${dateStr} at approximately ${milTime} hours, units responded to ${addr} in reference to `;
 
         const type = document.getElementById('incidentType').value;
         if(type === 'Traffic') {
@@ -291,23 +282,23 @@
             const est = document.getElementById('tEstSpeed').value || "XX";
             const pst = document.getElementById('tPostSpeed').value || "XX";
             const rad = document.getElementById('tRadarSpeed').value || "XX";
-            s1 += `traffic enforcement.\n\nI was conducting traffic enforcement in the area of ${area}, Brevard County, Florida, utilizing my in-car mounted Stalker DSR radar (SN#: 041144) front antenna. I then observed a ${yr}, ${clr}, ${mk}, bearing Florida license plate ${pl}, traveling at what I estimated to be approximately ${est} mph in a posted ${pst} mph zone. I then, utilizing my in-car Stalker DSR radar front antenna, verified through an audible and distinct Doppler tone, which displayed that the vehicle was traveling ${rad} mph in a ${pst} mph zone. As I continued to observe the vehicle pass me, I ${obs}.\n\n`;
-        } else if(type === 'Baker') {
-            const bN = document.getElementById('bakerSub').value || "_________";
-            const hosp = document.getElementById('bHosp').value;
-            const crit = document.getElementById('bCriteria').value;
+            s1 += `traffic enforcement.\n\nWhile conducting stationary/mobile speed enforcement in the vicinity of ${area}, I observed a ${yr} ${clr} ${mk} (bearing license plate ${pl}) traveling at an estimated speed of ${est} mph in a posted ${pst} mph zone. Using an agency-calibrated radar unit, I confirmed the vehicle's speed at ${rad} mph with a steady Doppler audio tone. Subsequent observations noted: ${obs}.\n\n`;
+        } else if(type === 'MentalHealth') {
+            const bN = document.getElementById('mhSub').value || "_________";
+            const hosp = document.getElementById('mhHosp').value || "[Designated Facility]";
+            const crit = document.getElementById('mhCriteria').value;
             let cText = "";
-            if(crit === "1") cText = `(1) without care or treatment ${bN} will cause serious bodily harm to her or himself or others in the near future.`;
-            else if(crit === "2") cText = `(2) Without care or treatment ${bN} may suffer from neglect or refuse to care for her or himself, and such neglect or refusal poses a real and present threat of substantial harm to her or his well-being...`;
-            else cText = `(1) without care or treatment ${bN} will cause serious bodily harm to her or himself or others in the near future, AND (2) without care or treatment ${bN} may suffer from neglect or refuse to care for her or himself, and such neglect or refusal poses a real and present threat of substantial harm to her or his well-being and it is not apparent that such harm may be avoided through the help of willing family members or friends or the provision of other services.`;
-            s1 += `a Baker Act.\n\nI have good faith reason to believe, ${bN} has a mental illness pursuant to section 394.455(18), F.S., and because of the mental illness: ${bN} is unable to determine for her or himself whether examination is necessary, therefor there is a substantial likelihood that ${cText}\n\nI transported ${bN} to ${hosp} on a Baker Act without incident.\n\n`;
-        } else if(type === 'Marchman') {
-            const mN = document.getElementById('mName').value || "_________";
-            const hosp = document.getElementById('mHosp').value;
-            s1 += `a Marchman Act.\n\nI have good faith reason to believe that ${mN} appears to meet the criteria for protective custody and that he or she is substance abuse impaired or has a co-occurring mental health disorder and, because of such impairment or disorder: Has lost the power of self-control with respect to substance abuse. I transported ${mN} to ${hosp} on a Marchman Act without incident.\n\n`;
-        } else { s1 += "_________.\n\n"; }
+            if(crit === "1") cText = `there is a substantial likelihood that without care or treatment, the individual will cause serious bodily harm to self or others in the near future.`;
+            else if(crit === "2") cText = `the individual is unable to care for self, creating a real and present threat of substantial harm.`;
+            else cText = `the individual poses a threat of self-harm/harm to others, and is unable to provide for essential self-care.`;
+            s1 += `a mental health evaluation / protective custody assessment.\n\nBased on personal observations and corroborating statements, there was reasonable belief that ${bN} met state criteria for involuntary examination, as ${cText}\n\nThe subject was taken into protective custody without incident and transported to ${hosp}.\n\n`;
+        } else if(type === 'SubstanceAbuse') {
+            const mN = document.getElementById('saName').value || "_________";
+            const hosp = document.getElementById('saHosp').value || "[Designated Facility]";
+            s1 += `substance abuse assessment / protective custody.\n\nBased on observable impairment and behavior, there was reasonable belief that ${mN} had lost the power of self-control regarding substance use and met statutory criteria for emergency assistance. The individual was safely transported to ${hosp}.\n\n`;
+        } else { s1 += "the reported incident.\n\n"; }
 
-        // Scenarios
+        // Supplemental Scenarios
         [1, 2, 3].forEach(num => {
             const val = document.getElementById('scenario' + num).value;
             if(val) s1 += scenariosMap[val] + "\n\n";
@@ -330,14 +321,14 @@
         }
         if(dStr) dStr = "ASSISTING PERSONNEL:\n" + dStr + "\n";
 
-        let s2 = `SECTION 2: CRIME SCENE\n\nThe crime scene was located at ${addr}.\n\n`;
-        if(document.getElementById('cPhotos').checked) s2 += `Digital photographs were taken of ${document.getElementById('photoDetails').value || "_________"}. All photographs were taken using my department issued cell phone.\n`;
-        if(document.getElementById('cAudio').checked) s2 += `A sworn audio-recorded statement was obtained from ${document.getElementById('audioFrom').value || "_________"} with the use of my department issued audio recorder.\n`;
-        if(document.getElementById('cPhotos').checked || document.getElementById('cAudio').checked) s2 += `The digital photographs and audio statements were uploaded to the AXON Digital Evidence server for storage and future investigative use.\n`;
-        if(document.getElementById('cEvidence').checked) s2 += `The following item(s) were submitted as evidence at North Precinct with a property receipt: ${document.getElementById('evidenceDetails').value || "_________"}\n`;
-        if(document.getElementById('cDash').checked) s2 += `My Axon Fleet 3 In-Car Video from vehicle #${document.getElementById('vehNum').value || "____"} was uploaded to Evidence.com in accordance with departmental policy and procedure.\n`;
+        let s2 = `SECTION 2: SCENE & EVIDENCE\n\nIncident location: ${addr}.\n\n`;
+        if(document.getElementById('cPhotos').checked) s2 += `Digital photographs were obtained documenting ${document.getElementById('photoDetails').value || "the scene"}.\n`;
+        if(document.getElementById('cAudio').checked) s2 += `A recorded statement was obtained from ${document.getElementById('audioFrom').value || "the involved party"}.\n`;
+        if(document.getElementById('cPhotos').checked || document.getElementById('cAudio').checked) s2 += `All media assets were securely archived into the digital evidence repository.\n`;
+        if(document.getElementById('cEvidence').checked) s2 += `The following property/evidence items were secured and packaged under property receipt: ${document.getElementById('evidenceDetails').value || "N/A"}\n`;
+        if(document.getElementById('cDash').checked) s2 += `In-car/body-worn camera video from Unit/Officer ${document.getElementById('vehNum').value || "N/A"} was preserved in accordance with agency policy.\n`;
 
-        let s3 = `\nSECTION 3: DISPOSITION\n\n`;
+        let s3 = `\nSECTION 3: CASE DISPOSITION\n\n`;
         const choice = document.getElementById('dispChoice').value;
         const sus = document.getElementById('disp_suspect').value || "_________";
         const chg = document.getElementById('disp_charges').value || "_________";
@@ -346,30 +337,30 @@
         const reason = document.getElementById('disp_reason').value || "_________";
 
         if(choice === 'arrest') {
-            s3 += `This case is cleared by the arrest of ${sus}, charged with ${chg} and is referred to the State Attorney’s Office for prosecution.`;
+            s3 += `Case cleared by arrest of ${sus} on charge(s) of: ${chg}. Referred for prosecution.`;
         } else if(choice === 'warrant') {
-            s3 += `This case is clear with an Arrest Warrant for ${sus} issued by the Honorable Judge ${jdg}, charged with ${chg}, and is referred to Records.`;
+            s3 += `Warrant obtained/requested for ${sus} through judicial review (${jdg}) on charge(s) of: ${chg}.`;
         } else if(choice === 'capias') {
-            s3 += `This case is referred to the State Attorney’s Office with a Capias Request for ${sus}, charged with ${chg}.`;
+            s3 += `Direct file complaint filed with the prosecutor's office for ${sus} on charge(s) of: ${chg}.`;
         } else if(choice === 'open') {
-            s3 += `This case is open/active and is referred to ${unit} for further investigation.`;
+            s3 += `Case remains open/active. Forwarded to ${unit} for ongoing investigation.`;
         } else if(choice === 'exceptional') {
-            s3 += `This case is exceptionally cleared due to ${reason} and is referred to Records.`;
+            s3 += `Exceptionally cleared due to: ${reason}.`;
         } else if(choice === 'suspended') {
-            s3 += `This case is suspended to file pending further investigative leads and is referred to Records.`;
+            s3 += `Case placed in inactive/suspended status pending actionable investigative leads.`;
         } else if(choice === 'info') {
-            s3 += `This case is cleared informational purposes only at this time and referred to Records.`;
+            s3 += `Report generated for informational/documentation purposes only.`;
         } else if(choice === 'cleared') {
-            s3 += `This case is cleared and referred to records.`;
+            s3 += `Case closed.`;
         } else if(choice === 'original') {
-            s3 += `Refer to the original report.`;
+            s3 += `Refer to primary incident report for disposition.`;
         }
 
-        let s4 = `\n\nSECTION 4: ENCLOSURES\n\n`;
+        let s4 = `\n\nSECTION 4: ATTACHMENTS & ENCLOSURES\n\n`;
         let encls = [];
-        if(document.getElementById('eMedia').checked) encls.push("Digital Media Uploaded");
-        if(document.getElementById('eAxon').checked) encls.push("Axon Fleet 3 In-Car Video");
-        if(document.getElementById('eVictim').checked) encls.push("Victim Notification");
+        if(document.getElementById('eMedia').checked) encls.push("Digital Evidence / Media Uploaded");
+        if(document.getElementById('eAxon').checked) encls.push("In-Car / BWC Video Preserved");
+        if(document.getElementById('eVictim').checked) encls.push("Statutory Rights Advisory Form");
         for(let i=1; i<=5; i++){ let val = document.getElementById('ec'+i).value; if(val) encls.push(val); }
         s4 += encls.length > 0 ? encls.join('\n') : "None.";
 
