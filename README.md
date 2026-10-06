@@ -1,6 +1,6 @@
 # Standardized Incident Narrative Template Generator
 
-[![Live Application](https://img.shields.io/badge/Live_App-GitHub_Pages-blue?style=flat&logo=github)](https://YOUR-USERNAME.github.io/law-enforcement-narrative-template/)
+[![Live Application](https://img.shields.io/badge/Live_App-GitHub_Pages-blue?style=flat&logo=github)](https://ryandus.github.io/Police-Report-Generator-/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight, front-end reporting utility designed to standardize law enforcement narrative documentation. It streamlines field data entry—including incident specifics, crime scene processing, assisting personnel, and case dispositions—into an audit-ready, standardized format.
@@ -34,3 +34,13 @@ Try the tool directly in your browser:
 To run or modify the application locally:
 
 1. Clone the repository:
+   ```bash
+   git clone https://github.com/ryandus/Police-Report-Generator-.git
+   ```
+2. Open `index.html` in a modern web browser. The repository contains a single static page, so no build step or server is required.
+
+---
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
