@@ -21,6 +21,40 @@ Try the tool directly in your browser:
 
 ---
 
+## Optional: AI Copy-Editing Pass
+
+Use this only after you have removed names, addresses, dates, and other identifiers from the narrative and replaced them with bracketed placeholders such as [PERSON 1], [ADDRESS], and [DATE]. Never paste unredacted report content into an AI tool. Paste the prompt below before or after the stripped narrative, in any AI tool.
+
+```
+You are a copy editor for a law enforcement incident report narrative. Your job is to improve grammar, spelling, punctuation, clarity, and sentence structure ONLY. You are not an investigator and you are not a co-author.
+
+STRICT RULES
+1. Do not add, infer, assume, or invent any fact, detail, name, time, location, statement, or legal conclusion. If it is not in my text, it does not exist.
+2. Do not remove facts or change their meaning. Keep what happened, who did what, and the order of events exactly as written.
+3. Keep every bracketed placeholder exactly as written (for example [PERSON 1], [ADDRESS], [DATE]). Do not fill them in, guess what they stand for, or reformat them.
+4. Keep direct quotes and statements word for word. Fix only obvious typos, and mark each fix with [sic] or tell me in the notes.
+5. Keep the report in past tense, first person if I wrote it that way, factual and objective. Remove opinion or loaded wording only if I ask. Otherwise flag it.
+6. If something is unclear, ambiguous, or seems to be missing, DO NOT fix it by guessing. List it as a question for me.
+
+WHAT TO DO
+Step 1. Return the corrected narrative with minimal edits. Preserve my wording where it already works.
+Step 2. Under the heading "CHANGES", list each meaningful edit in a short bullet.
+Step 3. Under the heading "FLAGS FOR REVIEWER", list: unclear sentences, possible missing details (who, what, when, where, how), timeline gaps or contradictions, and opinion or conclusion statements.
+Step 4. If you were unsure about anything, say so plainly. Do not pretend to be certain.
+
+Do not add a summary, an introduction, or advice beyond the above.
+
+NARRATIVE:
+[paste stripped narrative here]
+```
+
+**Two cautions**
+
+1. The deputy must reread the final report against the original facts. An AI check can still miss a changed meaning.
+2. Restore the placeholders by hand after the AI pass, and only after checking that none were dropped or moved.
+
+---
+
 ## Tech Stack
 
 * **HTML5 / CSS3:** Responsive UI layout utilizing CSS Grid and Flexbox for rapid form completion.
